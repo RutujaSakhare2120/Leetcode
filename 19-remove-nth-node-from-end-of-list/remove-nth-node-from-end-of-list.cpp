@@ -15,7 +15,7 @@ public:
         temp=head;
         // if(1 == (size-n)+1) head=head->next;
 
-       for(int i=1;i<=size-n-1;i++){
+       for(int i=1;i<size-n;i++){
          temp=temp->next;
        }
         temp->next = temp->next->next;
