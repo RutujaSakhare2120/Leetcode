@@ -52,6 +52,7 @@ public:
         
         ListNode* slow=head;
         ListNode* fast=head;
+        //do changes in the above line
         while(fast->next!=nullptr && fast->next->next !=nullptr){
             slow=slow->next;
             fast=(fast->next)->next;
