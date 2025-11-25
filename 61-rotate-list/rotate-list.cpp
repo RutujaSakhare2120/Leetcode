@@ -1,41 +1,33 @@
+
 class Solution {
 public:
-    ListNode* rotateRight(ListNode* head, int k) {   if(head==NULL) return 0;
-     ListNode* t=head;
-     int size=0;
-     while(t->next!=NULL){
-         size++;
-         t=t->next;
-     }
-     if(size+1<=k){
-        k=k%(size+1);
-     }
-     int idx=size-k;
-     ListNode* tail=t;
-     t=head;
-
-     for(int i=1;i<=idx;i++){
-        t=t->next;
-     }
-
-     tail->next=head;
-     head=t->next;
-     t->next=NULL;
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head==NULL || head->next==NULL) return head;
+        //calculate the length of LL
+        int size=0;
+        ListNode* temp=head;
+        ListNode* tail=NULL;
 
 
+        while(temp!=NULL){
+            if(temp->next==NULL) tail=temp;
+            size++;
+            temp=temp->next;
+        }
+        if(k==0) return head;
 
-    return head;
+        k=k%size;
+        temp=head;
 
-     
+        for(int i=1;i<size-k;i++){
+         temp=temp->next;
+        }
 
+        tail->next=head;
+       head= temp->next;
+       temp->next=NULL;
 
-
-
-     return t;
-
-
-    
-
+       return head;
         
     }
 };
