@@ -34,14 +34,12 @@ public:
 
         if(a==NULL && b!=NULL) {
             t->next=b;
-                b=b->next;
-                t=t->next;
+                
 
         }
         if(b==NULL && a!=NULL){
             t->next=a;
-                a=a->next;
-                t=t->next;
+               
         }
 
 
