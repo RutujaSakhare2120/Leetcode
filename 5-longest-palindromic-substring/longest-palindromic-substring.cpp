@@ -1,5 +1,6 @@
 class Solution {
 public:
+//using recursion
     bool solve(string &s , int i , int j){
         if(i>=j) return true;
         if(s[i]==s[j]){
