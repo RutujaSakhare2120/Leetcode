@@ -10,66 +10,58 @@
  */
 class Solution {
 public:
-     ListNode* mergeSort(ListNode* list1, ListNode* list2) {
-
-        ListNode* a=list1;
+    ListNode* mergeSort(ListNode* list1 , ListNode* list2){
+        ListNode* a=list1 ;
         ListNode* b=list2;
-        ListNode* c=new ListNode(100);
-        ListNode* t=c;
+        ListNode* newhead=new ListNode(20);
+        ListNode* c=newhead;
+
 
         while(a!=NULL && b!=NULL){
-            if(a->val <= b->val){
-                t->next=a;
-                a=a->next;
-                t=t->next;
-
-            }else{
-                t->next=b;
+            if(a->val > b->val){
+                c->next=b;
+                c=b;
                 b=b->next;
-                t=t->next;
-
-
+            }
+            else{
+                c->next=a;
+                c=a;
+                a=a->next;
             }
         }
-
-        if(a==NULL && b!=NULL) {
-            t->next=b;
-                
-
-        }
-        if(b==NULL && a!=NULL){
-            t->next=a;
-               
-        }
+        if(a==NULL) c->next=b;
+        else c->next=a;
 
 
-        return c->next;
+        return newhead->next;
+
     }
-   
-      
     ListNode* sortList(ListNode* head) {
         if(head==NULL || head->next==NULL) return head;
-        
         ListNode* slow=head;
         ListNode* fast=head;
-        //do changes in the above line
-        while(fast->next!=nullptr && fast->next->next !=nullptr){
+
+        while(fast->next!=NULL && fast->next->next!=NULL){
             slow=slow->next;
-            fast=(fast->next)->next;
+            fast=fast->next->next;
+
         }
 
-        ListNode* a=head;
-        ListNode* b=slow->next;
-        slow->next=NULL;
-
-        a=sortList(a);
-        b=sortList(b);
+         ListNode* a=head;
+        ListNode* b=nullptr;
+         b=slow->next;
+         slow->next=NULL;
 
 
-        ListNode* c=mergeSort(a, b);
-        return c;
+         a=sortList(a);
+         b=sortList(b);
+
+         ListNode* c=mergeSort(a , b);
+
+         return c;
 
 
+        
         
     }
 };
