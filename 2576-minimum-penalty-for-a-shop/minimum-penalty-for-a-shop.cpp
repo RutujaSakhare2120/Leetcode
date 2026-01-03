@@ -1,32 +1,35 @@
 class Solution {
 public:
     int bestClosingTime(string customers) {
-        int n=customers.length();
-       vector<int> pre(n+1);//for N before nth hour
-        vector<int> suf(n+1);//for Y after including nth hour
-        pre[0]=0;
-        for(int i=0;i<n;i++){
-            // int count=0;
-            // if(customers[i]=='N') count++;
-            pre[i+1]=pre[i]+ ((customers[i]=='N') ? 1 :0);
+        int n=customers.size();
+       vector< int>prefixN(n+1);
+        vector<int>suffixY(n+1);
+        prefixN[0]=0;
+        suffixY[n]=0;
+
+        for(int i=1;i<n+1;i++){
+            if(customers[i-1]=='N') prefixN[i]=1+prefixN[i-1];
+            else prefixN[i]=prefixN[i-1];
         }
 
-        suf[n]=0;
-       for(int i=n-1;i>=0;i--){
-        suf[i]=suf[i+1]+((customers[i]=='Y') ? 1 :0);
-       }
-
-
-       
-        for(int i=0;i<=n;i++){
-            pre[i]=pre[i]+suf[i];
+        for(int i=n-1;i>=0;i--){
+            if(customers[i]=='Y') suffixY[i]=1+ suffixY[i+1];
+            else  suffixY[i]= suffixY[i+1];
         }
-        
-        int  minEle=INT_MAX;
-        int minidx=0;
-        for(int i=0;i<=n;i++){
-             if(pre[i]<minEle){minEle=pre[i];minidx=i;}
+
+       vector< int>ans(n+1);
+        for(int i=0;i<n+1;i++){
+            ans[i]=(prefixN[i]+suffixY[i]);
         }
-       return minidx; 
+         
+         int minVal=INT_MAX;
+         int idx=-1;
+        for(int i=0;i<n+1;i++){
+           if(ans[i]<minVal){
+            minVal=ans[i];
+            idx=i;
+           }
+        }
+        return idx;
     }
 };
