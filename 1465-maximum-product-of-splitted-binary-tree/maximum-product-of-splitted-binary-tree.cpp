@@ -11,35 +11,29 @@
  */
 class Solution {
 public:
-   long long maxproduct = 0;
-
-   const int mod = 1e9 + 7;
-
-    int totalSum(TreeNode* root){
-        if(root==NULL) return 0;
-        return  root->val+totalSum(root->left)+totalSum(root->right);
-
+    long long maxproduct=0;
+    const int mod=1e9+7;
+     int totalSum=0;
+     
+    int TotalSum(TreeNode* root){
+        if(!root) return 0;
+        return root->val+TotalSum(root->left)+TotalSum(root->right);
     }
-    int helper(TreeNode* root,int TotalSum){
-        if(root==NULL) return 0;
-       int lst= helper(root->left,TotalSum);
-       int rst= helper(root->right,TotalSum);
+    long long helper(TreeNode* root){
+         if(!root) return 0;
+         //used postOrder Traversal
+        int lst= helper(root->left);
+        int rst=helper(root->right);
 
-       int sumSubtree=lst+rst+root->val;
-      long long Product = 1LL * (TotalSum - sumSubtree) * sumSubtree;
+         int subtreeSum=lst+rst+root->val;
+         long long product=1LL* (totalSum-subtreeSum)*subtreeSum;
 
-        maxproduct=max(maxproduct,Product);
-
-        return sumSubtree;
-
-
+         maxproduct=max(maxproduct, product);
+         return subtreeSum;
     }
     int maxProduct(TreeNode* root) {
-        int TotalSum=totalSum(root);
-        helper(root,TotalSum);
-       
-
+        totalSum=TotalSum(root);
+        helper(root);
         return maxproduct%mod;
-        
     }
 };
