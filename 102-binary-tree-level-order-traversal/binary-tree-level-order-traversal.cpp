@@ -11,26 +11,32 @@
  */
 class Solution {
 public:
-    void lorder(TreeNode* root ,vector<vector<int>>&ans , int level ){
-       if(root==NULL) return;
-       ans[level].push_back(root->val);
-       lorder(root->left , ans , level+1);
-       lorder(root->right , ans , level+1);
-
-    }
-    int levels(TreeNode* root){
-     if(root==NULL) return 0;
-     return 1+max(levels(root->left) , levels(root->right));
-    }
+    // using BFS
+   
     vector<vector<int>> levelOrder(TreeNode* root) {
-        int n=levels(root);
+        
+         vector<vector<int>>ans;
+        if(root==NULL) return ans;
+         queue<TreeNode*>q;
+         q.push(root);
+         while(!q.empty()){
+              vector<int>v;
+              int n=q.size();
+              for(int i=0;i<n;i++){
+                TreeNode *node = q.front();
+          q.pop();
+          v.push_back(node->val);
 
-        vector<vector<int>>ans;
-        for(int i=1;i<=n;i++){
-        vector<int>v;
-        ans.push_back(v);
-        }
-        lorder(root , ans , 0);
-        return ans;
+           if (node->left != NULL)
+            q.push(node->left);
+            if (node->right != NULL)
+            q.push(node->right);
+              }
+          
+
+            ans.push_back(v);
+         }
+
+       return ans;
     }
 };
