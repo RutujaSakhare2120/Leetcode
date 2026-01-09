@@ -11,27 +11,20 @@
  */
 class Solution {
 public:
-      unordered_map<int,int>mp;
-    int maxD=1;
-    void levels(TreeNode* root , int d){
-         if(!root) return ;
-         maxD=max(maxD , d);
-         mp[root->val]=d;
-         levels(root->left , d+1);
-         levels(root->right , d+1);
-    }
-    TreeNode* LCA(TreeNode* root){
-        if(!root || mp[root->val]==maxD) return root;
+    pair<int,TreeNode*> solve(TreeNode* root){
+        if(!root) return{0,root};
+        
+        auto l=solve(root->left);
+        auto r=solve(root->right);
 
-        TreeNode* leftSide=LCA(root->left);
-        TreeNode* rightSide=LCA(root->right);
+         if(l.first==r.first){
+            return {l.first+1 , root};
 
-        if(leftSide && rightSide ) return root;
-        return  rightSide?rightSide:leftSide;
+         }
+         else if(l.first>r.first)  return {l.first+1 , l.second};
+         else  return {r.first+1 , r.second};
     }
     TreeNode* subtreeWithAllDeepest(TreeNode* root) {
-         levels(root,1);
-
-         return LCA(root);
+        return solve(root).second;
     }
 };
