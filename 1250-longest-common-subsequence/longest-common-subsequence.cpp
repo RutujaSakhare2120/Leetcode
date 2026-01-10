@@ -1,21 +1,17 @@
 class Solution {
 public:
-//recursion+memorization
-   vector<vector<int>>dp;
-   int helper(string &s1 , string &s2 , int i , int j){
-     if(i==s1.size() || j==s2.size()) return 0;
-     if(dp[i][j]!=-1) return dp[i][j];
-     if(s1[i]==s2[j]) return dp[i][j]=1+helper(s1,s2,i+1,j+1);
-     int leftSide=helper(s1,s2,i+1,j);
-     int rightSide=helper(s1,s2,i,j+1);
-
-     return dp[i][j] =max(leftSide , rightSide);
-
-
-   }
+    vector<vector<int>>dp;
+    //tabulation 
     int longestCommonSubsequence(string text1, string text2) {
-        dp.resize(text1.size() , vector<int>(text2.size() , -1));
-        return helper(text1,text2,0,0);
-        
+        dp.resize(text1.size()+1  , vector<int>((text2.size()+1) , 0));
+
+        for(int i=1;i<=text1.size();i++){
+           for(int j=1;j<=text2.size();j++){
+            if(text1[i-1]==text2[j-1]) dp[i][j]=1+dp[i-1][j-1];
+            else dp[i][j]=max(dp[i-1][j] , dp[i][j-1]);
+           }
+        }
+
+        return dp[text1.size()][text2.size()];
     }
 };
