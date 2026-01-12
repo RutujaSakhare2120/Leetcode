@@ -11,20 +11,18 @@
  */
 class Solution {
 public:
-    unordered_map<TreeNode*,int>mp;
-    int level(TreeNode* root){
+    int ans;
+    int helper(TreeNode* root){
         if(root==NULL) return 0;
-        if(mp.find(root)!=mp.end()) return mp[root];
-        return mp[root]=1+max(level(root->left) ,level(root->right) );
+        int leftSide=helper(root->left);
+        int rightSide=helper(root->right);
+        int myAns=leftSide+rightSide;
+        ans=max(ans, myAns);
+        return 1+max(leftSide,rightSide);
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        if(root==NULL) return 0;
-        int diameter=level(root->left)+level(root->right);
-    
-        int leftSide=diameterOfBinaryTree(root->left);
-        int rightSide=diameterOfBinaryTree(root->right);
-        
-        return max(diameter,max(leftSide,rightSide));
-        
+         ans=0;
+          helper(root); 
+          return ans;
     }
 };
