@@ -1,29 +1,36 @@
 class Solution {
 public:
-    int minimumPairRemoval(vector<int>& nums) {
-        
-
-       
-        int count=0;
-        while(!is_sorted(nums.begin(), nums.end())){
-           count++;
-           int minVal=INT_MAX;
-           int idx=-1;
-           int n=nums.size();
-           for(int i=0;i<n-1;i++){
-            int val=nums[i]+nums[i+1];
-            if(minVal>val){
-                minVal=val;
-                idx=i;
-            }
-           }
-
-           nums[idx]=minVal;
-           nums.erase(nums.begin()+(idx+1));
-           nums.resize(n-1);
-
+    bool isSorted(vector<int>& nums) {
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] < nums[i - 1])
+                return false;
         }
-        return count;
-        
+        return true;
+    }
+
+    int minimumPairRemoval(vector<int>& nums) {
+        int operations = 0;
+
+        while (!isSorted(nums)) {
+            int minSum = nums[0] + nums[1];
+            int idx = 0;
+
+            // find leftmost adjacent pair with minimum sum
+            for (int i = 1; i < nums.size() - 1; i++) {
+                int currSum = nums[i] + nums[i + 1];
+                if (currSum < minSum) {
+                    minSum = currSum;
+                    idx = i;
+                }
+            }
+
+            // merge the pair
+            nums[idx] = minSum;
+            nums.erase(nums.begin() + idx + 1);
+
+            operations++;
+        }
+
+        return operations;
     }
 };
