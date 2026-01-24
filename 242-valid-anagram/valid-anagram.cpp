@@ -6,12 +6,18 @@ public:
         for(int i=0;i<s.size() ;i++){
             m[s[i]]++;
         }
-         unordered_map<char , int>m1;
-        for(int i=0;i<t.size() ;i++){
-            m1[t[i]]++;
-        }
-       if(m==m1) return true;
-        return false;
+       for(int i=0;i<t.size();i++){
+        char c=t[i];
+        if(m.find(c)!=m.end()) {
+            m[c]--;
+            if(m[c]==0) m.erase(c);
+            }
+        else return false;
+       
+       }
+       if(m.size()>0) return false;
+
+       return true;
         
     }
 };
