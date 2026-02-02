@@ -1,21 +1,19 @@
 class Solution {
-public://using BFS
-    bool canVisitAllRooms(vector<vector<int>>& rooms) {
-        int n=rooms.size();
-        unordered_set<int>visited;
-        queue<int>q;
-        q.push(0);
-        visited.insert(0);
-        while(!q.empty()){
-            auto curr=q.front();
-            q.pop();
-            for(auto neighbour:rooms[curr]){
-                if(!visited.count(neighbour)){
-                     visited.insert(neighbour);
-                     q.push(neighbour);
-                }
+public: // using DFS
+    unordered_set<int> visited;
+
+    void helper(vector<vector<int>>& rooms, int curr) {
+        visited.insert(curr);   // ✅ mark first
+
+        for (int neighbour : rooms[curr]) {
+            if (!visited.count(neighbour)) {
+                helper(rooms, neighbour);
             }
         }
-        return visited.size()==rooms.size();
+    }
+
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        helper(rooms, 0);
+        return visited.size() == rooms.size();
     }
 };
