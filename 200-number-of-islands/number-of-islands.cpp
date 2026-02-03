@@ -1,34 +1,49 @@
 class Solution {
 public:
-   
-   
+    int numIslands(vector<vector<char>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        int result = 0;
 
-    void dfs(vector<vector<char>>& grid , int row , int col){
-        int n=grid.size();
-         int m=grid[0].size();
-         if(row<0 || row>=n || col<0 || col>=m ) return;
-       if(grid[row][col]!='1') return ;
-       grid[row][col]='2' ;
-       dfs(grid , row+1 , col);
-       dfs(grid , row-1 , col);
-       dfs(grid , row , col+1);
-       dfs(grid , row , col-1);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == '1') {
+                    result++;
+                    queue<pair<int,int>> q;
+                    q.push({i, j});
+                    grid[i][j] = '0';
 
-    }
+                    while (!q.empty()) {
+                        auto p = q.front();
+                        q.pop();
 
-   int numIslands(vector<vector<char>>& grid) {
-    int n = grid.size();
-    int m = grid[0].size();
-    int result = 0;
+                        int r = p.first;
+                        int c = p.second;
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            if (grid[i][j] == '1') {
-                result++;
-                dfs(grid, i, j);
+                        // up
+                        if (r - 1 >= 0 && grid[r-1][c] == '1') {
+                            q.push({r-1, c});
+                            grid[r-1][c] = '0';
+                        }
+                        // down
+                        if (r + 1 < n && grid[r+1][c] == '1') {
+                            q.push({r+1, c});
+                            grid[r+1][c] = '0';
+                        }
+                        // left
+                        if (c - 1 >= 0 && grid[r][c-1] == '1') {
+                            q.push({r, c-1});
+                            grid[r][c-1] = '0';
+                        }
+                        // right
+                        if (c + 1 < m && grid[r][c+1] == '1') {
+                            q.push({r, c+1});
+                            grid[r][c+1] = '0';
+                        }
+                    }
+                }
             }
         }
+        return result;
     }
-    return result;
-}
 };
