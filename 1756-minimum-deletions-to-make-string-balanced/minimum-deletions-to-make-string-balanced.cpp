@@ -4,25 +4,24 @@ public:
         int n = s.length();
         if (n <= 1) return 0;
 
-        vector<int> leftB(n), rightA(n);
+        vector<int> rightA(n);
 
-        int b = 0;
-        for (int i = 0; i < n; i++) {
-            leftB[i] = b;          // b's before i
-            if (s[i] == 'b') b++;
-        }
+       
 
         int a = 0;
         for (int i = n - 1; i >= 0; i--) {
             rightA[i] = a;         // a's after i
             if (s[i] == 'a') a++;
         }
-
-        int count = INT_MAX;
+        
+        int ans = INT_MAX;
+        int count=0;//count of left b;
         for (int i = 0; i < n; i++) {
-            count = min(count, leftB[i] + rightA[i]);
+            
+            ans = min(ans, count + rightA[i]);
+            if(s[i]=='b') count++;
         }
 
-        return count;
+        return ans;
     }
 };
