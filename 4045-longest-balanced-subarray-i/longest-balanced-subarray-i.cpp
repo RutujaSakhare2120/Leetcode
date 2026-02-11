@@ -1,27 +1,40 @@
 class Solution {
 public:
     int longestBalanced(vector<int>& nums) {
-        int n = nums.size();
-        int ans = 0;
+        int n=nums.size();
+        int maxLength=0;
+        for(int i=0;i<n-1;i++){
+            int evenCount=0;
+            int oddCount=0;
+            unordered_set<int>even;
+            unordered_set<int>odd;
 
-        for (int i = 0; i < n; i++) {
-            unordered_set<int> seen;
-            int evenCnt = 0, oddCnt = 0;
-
-            for (int j = i; j < n; j++) {
-                if (!seen.count(nums[j])) {
-                    seen.insert(nums[j]);
-                    if (nums[j] % 2 == 0)
-                        evenCnt++;
-                    else
-                        oddCnt++;
+            for(int j=i;j<n;j++){
+                if(nums[j]%2==0){
+                    if(even.find(nums[j])==even.end()){
+                        even.insert(nums[j]);
+                         evenCount++;
+                    }
+                   
+                }
+                else{
+                     if(odd.find(nums[j])==odd.end()){
+                        odd.insert(nums[j]);
+                        oddCount++;
+                    }
+                    
                 }
 
-                if (evenCnt == oddCnt) {
-                    ans = max(ans, j - i + 1);
+
+                if(evenCount==oddCount){
+                    maxLength=max(maxLength , (j-i+1));
                 }
+
+
             }
         }
-        return ans;
+        return maxLength;
+
+        
     }
 };
